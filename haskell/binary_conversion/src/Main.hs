@@ -22,9 +22,9 @@ appversion="0.1.0.0"
  -  It takes one argument, of type 'Integer' and returns a list of 'Chars'.
  --}
 toBin::Integer->String
-toBin 0 = [0]
-toBin 1 = [1]
-toBin n = toBin(n `div` 2)++[intToDigit $ n `mod` 2]
+toBin 0 = ['0']
+toBin 1 = ['1']
+toBin n = toBin(n `div` 2)++[intToDigit (fromIntegral $ n `mod` 2) ]
 
 	
 
@@ -66,16 +66,16 @@ main::IO ()
 main=do
 	args<-getArgs
 	case args of
-		["-h"]		-> usage>>exitSuccess
-		["-help"]	-> usage>>exitSuccess
-		["-v"]		-> version>>exitSuccess
+		["-h"]		-> usage>>successExit
+		["-help"]	-> usage>>successExit
+		["-v"]		-> version>>successExit
 		["-b",value]->do
 			let x=read value::Integer
 			printBinary x
 		["-h",value]->do
 			let x=read value::Integer
 			printHex x
-		[]-> usage>>exitFailure
+		[]-> usage>>failureExit
 
 -- | 'usage' is a helper function used to print the application's usage
 usage   = do
@@ -88,5 +88,5 @@ usage   = do
 
 -- | 'version' is a helper function used to print the application's name and version
 version = putStrLn $ appname++" Version: "++appversion
-exitSuccess    = exitWith ExitSuccess
-exitFailure    = exitWith (ExitFailure 1)
+successExit    = exitWith ExitSuccess
+failureExit    = exitWith (ExitFailure 1)
