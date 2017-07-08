@@ -1,3 +1,14 @@
+{-|
+ -Module      : BaseConvertor
+ -Description : Application made for converting decimal to binary or hex
+ -Copyright   : (c) ardeleanasm, 2017
+ -License     : GPL-2
+ -Maintainer  : ardeleanasm@gmail.com
+ -Stability   : experimental
+ -Portability : POSIX
+ -
+ -
+ --}
 import System.Environment
 import System.Exit
 import Data.Char
@@ -6,15 +17,22 @@ import Data.Char
 appname="BaseConvertor"
 appversion="0.1.0.0"
 
-toBin::Integer->[Integer]
-toBin 0= [0]
-toBin 1= [1]
-toBin n
-	| n `mod` 2==0= toBin(n `div` 2)++[0]
-	| otherwise =toBin(n `div` 2)++[1]
+{-|
+ -  The 'toBin' converts a number from decimal to binary.
+ -  It takes one argument, of type 'Integer' and returns a list of 'Chars'.
+ --}
+toBin::Integer->String
+toBin 0 = [0]
+toBin 1 = [1]
+toBin n = toBin(n `div` 2)++[intToDigit $ n `mod` 2]
+
 	
 
-toHex::Integer->[Char]
+{-|
+ -  The 'toHex' converts a number from decimal to hexadecimal.
+ -  It takes one argument, of type 'Integer' and returns a list of 'Chars'.
+ --}
+toHex::Integer->String
 toHex 0=['0']
 toHex n=do
 	let x = n `mod` 16
@@ -25,38 +43,41 @@ toHex n=do
 		13->toHex(n `div` 16)++['D']
 		14->toHex(n `div` 16)++['E']
 		15->toHex(n `div` 16)++['F']
-		otherwise->toHex(n `div` 16)++[intToDigit $ fromIntegral x]
+		_->toHex(n `div` 16)++[intToDigit $ fromIntegral x]
 
 
 
 	
-
+{-|
+ -  The 'printBinary' is a helper function used to print the number in binary base.
+ -  It takes one argument, of type 'Integer'.
+ --}
 printBinary::Integer->IO ()
-printBinary n = putStrLn $list_to_string result
-	where 
-		list_to_string=unwords . map show
-		result = toBin n
+printBinary n = putStrLn $toBin n
 
+{-| The 'printHex' is a helper function used to print the number in hexadecimal base.
+ -It takes one argument, of type 'Integer'.
+ --}
 printHex::Integer->IO ()
 printHex n = putStrLn $toHex n
 
-
+-- | 'main' Application's entry point
 main::IO ()
 main=do
 	args<-getArgs
 	case args of
-		["-h"]		-> usage>>exit_success
-		["-help"]	-> usage>>exit_success
-		["-v"]		-> version>>exit_success
+		["-h"]		-> usage>>exitSuccess
+		["-help"]	-> usage>>exitSuccess
+		["-v"]		-> version>>exitSuccess
 		["-b",value]->do
 			let x=read value::Integer
 			printBinary x
 		["-h",value]->do
 			let x=read value::Integer
 			printHex x
-		[]-> usage>>exit_failure
+		[]-> usage>>exitFailure
 
-
+-- | 'usage' is a helper function used to print the application's usage
 usage   = do
 	putStrLn "Usage: bc <parameter>[<value>]"
 	putStrLn "parameters:"
@@ -65,6 +86,7 @@ usage   = do
 	putStrLn "\t\t-b value:\tdecToBin"
 	putStrLn "\t\t-h value:\tdecToHex"
 
+-- | 'version' is a helper function used to print the application's name and version
 version = putStrLn $ appname++" Version: "++appversion
-exit_success	= exitWith ExitSuccess
-exit_failure	= exitWith (ExitFailure 1)
+exitSuccess    = exitWith ExitSuccess
+exitFailure    = exitWith (ExitFailure 1)
