@@ -6,9 +6,8 @@
  -Maintainer  : ardeleanasm@gmail.com
  -Stability   : experimental
  -Portability : POSIX
- -
- -
  --}
+
 import System.Environment
 import System.Exit
 import Data.Char
