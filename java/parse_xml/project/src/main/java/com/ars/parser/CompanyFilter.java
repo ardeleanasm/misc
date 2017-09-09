@@ -7,22 +7,24 @@ public class CompanyFilter implements StreamFilter {
 	private boolean accept=true;
 	private String tag;
 	private String value;
-	
-	public CompanyFilter setTag(String tag) {
-		this.tag=tag;
+	private String attribute;
+	public CompanyFilter setEntityName(String entityName) {
+		this.tag=entityName;
 		return this;
 	}
 	
-	public CompanyFilter setValue(String value) {
+	public CompanyFilter setFilterValues(String attribute,String value) {
 		this.value=value;
+		this.attribute=attribute;
 		return this;
 	}
+	
 	
 	
 	
 	public boolean accept(XMLStreamReader reader) {
 		 if(reader.isStartElement() && tag.equals(reader.getLocalName())) {
-	            accept = "abc".equals(reader.getAttributeValue(null, value));
+	            accept = value.equals(reader.getAttributeValue(null, attribute));
 	        } else if(reader.isEndElement()) {
 	            boolean returnValue = accept;
 	            accept = true;

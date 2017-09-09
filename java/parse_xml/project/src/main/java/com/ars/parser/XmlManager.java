@@ -38,11 +38,11 @@ public class XmlManager {
 		return readFromFile();
 	}
 
-	public Object readTagValue(String tag, String value)
+	public Object readTagValue(String entityName,String attribute, String value)
 	        throws FileNotFoundException, XMLStreamException, JAXBException {
 		XMLInputFactory xif = XMLInputFactory.newInstance();
 		XMLStreamReader xsr = xif.createXMLStreamReader(new FileInputStream(path));
-		xsr = xif.createFilteredReader(xsr, new CompanyFilter().setTag(tag).setValue(value));
+		xsr = xif.createFilteredReader(xsr, new CompanyFilter().setEntityName(entityName).setFilterValues(attribute,value));
 		return readFromStream(xsr);
 	}
 
