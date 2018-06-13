@@ -23,10 +23,8 @@ help appName=do
   putStrLn "\t\t-c hash:\thash function"
   putStrLn "\t\t-s string:\tplaintext"
 
-parseArguments::IO()
-parseArguments=do
-  args<- getArgs
-  appName<-getProgName
+parseArguments::[String]->String->IO()
+parseArguments args appName=do
   case args of
     ["-h"]->help appName>>exitWith ExitSuccess
     ["-help"]->help appName>>exitWith ExitSuccess
@@ -40,4 +38,6 @@ parseArguments=do
   
 main :: IO ()
 main = do
-  parseArguments
+  args<-getArgs
+  appName<-getProgName
+  parseArguments args appName
