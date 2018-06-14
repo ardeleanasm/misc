@@ -1,0 +1,17 @@
+OASISFormat: 0.4
+Name:        MonteCarloIntegration
+Version:     1.0.0
+Synopsis:    none
+Authors:     Mihai Seba
+License:     LGPL
+Plugins:     META (0.4), DevFiles (0.4)
+Library "MonteCarlo"
+  Path:       lib
+  BuildTools: ocamlbuild
+  Modules:    MonteCarlo_type
+            , MonteCarlo
+Executable "MonteCarloIntegration"
+  Path:       src
+  BuildTools: ocamlbuild
+  MainIs:     Main.ml
+  BuildDepends: MonteCarlo

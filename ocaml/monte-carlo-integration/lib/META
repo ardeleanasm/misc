@@ -1,0 +1,11 @@
+# OASIS_START
+# DO NOT EDIT (digest: e0d707ed19171bfec51ceba30a2cae02)
+version = "1.0.0"
+description = "none"
+archive(byte) = "MonteCarlo.cma"
+archive(byte, plugin) = "MonteCarlo.cma"
+archive(native) = "MonteCarlo.cmxa"
+archive(native, plugin) = "MonteCarlo.cmxs"
+exists_if = "MonteCarlo.cma"
+# OASIS_STOP
+
