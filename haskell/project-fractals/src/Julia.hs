@@ -6,10 +6,11 @@ import Data.Complex
 import Graphics.GD
 import Plot
 
-maxNumberOfIterations = 255
+maxNumberOfIterations = 4096
 
 c::Complex Double
-c= (-0.423) :+ 0.745
+c = ((-0.835) :+ (-0.2321))
+--c= (-0.7269) :+ 0.1889
 
 
 drawJulia::Coordinate->Color
@@ -26,12 +27,15 @@ julia z c iter
                 then iter
                 else julia zNext c (iter+1)
 
+createPalette::Int -> [Int]
+createPalette ind = [[r,g,b] | r<-[0,16..255],g<-[0,16..255],b<-[0,16..255]] !! ind
 
 getColor::Int -> Color
 getColor x
     | x > maxNumberOfIterations = rgb 255 255 255
-    | otherwise = let c = x * 2
+    | otherwise = let c = createPalette x
                    --   r = x `mod` 4 * 64
                    --   g = x `mod` 8 * 32
                    --   b = x `mod` 16 * 16
-                in rgb x c x
+                in rgb (c !! 0) (c !! 1) (c !! 2) 
+
